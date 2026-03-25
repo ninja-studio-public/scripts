@@ -35,9 +35,8 @@ for arg in argv[3:]:
     name, instance_id = arg.split(':', 1)
     environments[name.strip()] = instance_id.strip()
 
-OUTPUT_DIR  = "/app/output"
+OUTPUT_DIR  = os.environ.get("OUTPUT_DIR", "/app/output")
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "active-deployments.json")
-
 # ── Colors ────────────────────────────────────────────────────────────────────
 
 class Colors:
