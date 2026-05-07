@@ -1,4 +1,4 @@
-# Script Version: 1.2.0 dated 06 May 2026
+# Script Version: 1.3.0 dated 07 May 2026
 
 # This script queries Docker image tags currently running per microservice,
 # across one or more named environments (e.g. staging, prod), each mapped
@@ -106,10 +106,14 @@ def assume_role(role_arn: str, region: str) -> Optional[dict]:
             "AWS_SECRET_ACCESS_KEY": secret_key,
             "AWS_SESSION_TOKEN":     session_token,
         }
-    except Exception as e:
-        print(f"{Colors.RED}  [ERROR] Could not assume role {role_arn}: {e}{Colors.END}")
+    except subprocess.CalledProcessError as e:
+        print(f"{Colors.RED}  [ERROR] Could not assume role {role_arn}{Colors.END}")
+        print(f"{Colors.RED}  [ERROR] exit code: {e.returncode}{Colors.END}")
+        print(f"{Colors.RED}  [ERROR] stderr: {e.stderr.strip()}{Colors.END}")
         return None
-
+    except Exception as e:
+        print(f"{Colors.RED}  [ERROR] Unexpected error assuming role {role_arn}: {e}{Colors.END}")
+        return None        
 
 def configure_kubeconfig(cluster_name: str, region: str, aws_env: Optional[dict] = None) -> bool:
     """Run aws eks update-kubeconfig for the given cluster.
