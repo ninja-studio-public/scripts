@@ -180,6 +180,7 @@ def render_html(data: dict, environments: dict, env_names: list, timestamp: str)
 </table>
 
 {diff_section}
+<p> If a service is not reported here, you may need to update the GitHub variable MICROSERVICES.</p>
 """
 
 # ── Main ──────────────────────────────────────────────────────────────────────
